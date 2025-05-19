@@ -1,0 +1,8 @@
+dg_sprint_hb.aux1 (Enable AUX1 sprinting) bool true
+dg_sprint_hb.double_tap (Enable double tap sprinting) bool true
+dg_sprint_hb.particles (Enable sprinting particles) bool true
+dg_sprint_hb.drain_rate (Hunger drain rate while sprinting) float 5.0
+dg_sprint_hb.liquid_cancel_sprint (Cancel sprinting when in liquid) bool false
+dg_sprint_hb.snow_cancel_sprint (Cancel sprinting when on snow) bool false
+
+
