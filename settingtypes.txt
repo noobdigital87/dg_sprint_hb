@@ -18,14 +18,16 @@ dg_sprint_hb.snow           (Cancel sprinting when on snow) bool false
 
 dg_sprint_hb.starve         (Cancel sprinting when starving) bool false
 
+
+dg_sprint_hb.EXHAUST_LVL    (Exhaustion level) float 160
 dg_sprint_hb.HUNGER_TICK    (Time in seconds after that 1 hunger point is taken) int 800 
-dg_sprint_hb.EXHAUST_DIG    (Exhaustion increased this value after digged node) float 3.0 
-dg_sprint_hb.EXHAUST_PLACE    (Exhaustion increased this value after digged node) float 1.0
-dg_sprint_hb.EXHAUST_MOVE    (Exhaustion increased this value after digged node) float 0.3 
-dg_sprint_hb.EXHAUST_LVL    (Exhaustion increased this value after digged node) float 160
-dg_sprint_hb.SAT_MAX    (Exhaustion increased this value after digged node) float 30 
-dg_sprint_hb.SAT_INIT    (Exhaustion increased this value after digged node) float 20
-dg_sprint_hb.SAT_HEAL    (Exhaustion increased this value after digged node) float 15
+dg_sprint_hb.EXHAUST_DIG    (Exhaustion after dig) float 3.0 
+dg_sprint_hb.EXHAUST_PLACE    (Exhaustion after place) float 1.0
+dg_sprint_hb.EXHAUST_MOVE    (Exhaustion after move) float 0.3 
+
+dg_sprint_hb.SAT_MAX    (Max saturaion level) float 30 
+dg_sprint_hb.SAT_INIT    (Saturation level at start) float 20
+dg_sprint_hb.SAT_HEAL    (Required satiation points to start healing) float 15
 [Advanced]
 
 dg_sprint_hb.detection_step     (Detection step interval)               float 0.1 0.1 1.0

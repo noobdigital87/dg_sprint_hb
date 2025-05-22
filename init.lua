@@ -26,12 +26,12 @@ local settings = {
 
 hbhunger.HUNGER_TICK = get_settings_number(your_mod_name .. ".HUNGER_TICK",800)
 hbhunger.EXHAUST_DIG = get_settings_number(your_mod_name .. ".EXHAUST_DIG",3.0)
-hbhunger.EXHAUST_PLACE = get_settings_number(your_mod_name .. ".EXHAUST_PLACE",1) -- exhaustion increased this value after placed
-hbhunger.EXHAUST_MOVE = get_settings_number(your_mod_name .. ".EXHAUST_MOVE",0.3) -- exhaustion increased this value if player movement detected
-hbhunger.EXHAUST_LVL = get_settings_number(your_mod_name .. ".EXHAUST_LVL",160) -- at what exhaustion player satiation gets lowerd
-hbhunger.SAT_MAX = get_settings_number(your_mod_name .. ".SAT_MAX",30) -- maximum satiation points
-hbhunger.SAT_INIT = get_settings_number(your_mod_name .. ".SAT_INIT",20) -- initial satiation points
-hbhunger.SAT_HEAL = get_settings_number(your_mod_name .. ".SAT_HEAL",15) -- required satiation points to start healing
+hbhunger.EXHAUST_PLACE = get_settings_number(your_mod_name .. ".EXHAUST_PLACE",1) 
+hbhunger.EXHAUST_MOVE = get_settings_number(your_mod_name .. ".EXHAUST_MOVE",0.3) 
+hbhunger.EXHAUST_LVL = get_settings_number(your_mod_name .. ".EXHAUST_LVL",160) 
+hbhunger.SAT_MAX = get_settings_number(your_mod_name .. ".SAT_MAX",30) 
+hbhunger.SAT_INIT = get_settings_number(your_mod_name .. ".SAT_INIT",20)
+hbhunger.SAT_HEAL = get_settings_number(your_mod_name .. ".SAT_HEAL",15)
 
 
 dg_sprint_core.RegisterStep(your_mod_name, "DETECT", settings.detection_step, function(player, state, dtime)
