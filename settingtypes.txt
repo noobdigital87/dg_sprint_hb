@@ -1,8 +1,27 @@
-dg_sprint_hb.aux1 (Enable AUX1 sprinting) bool true
-dg_sprint_hb.double_tap (Enable double tap sprinting) bool true
-dg_sprint_hb.particles (Enable sprinting particles) bool true
-dg_sprint_hb.drain_rate (Hunger drain rate while sprinting) float 5.0
-dg_sprint_hb.liquid_cancel_sprint (Cancel sprinting when in liquid) bool false
-dg_sprint_hb.snow_cancel_sprint (Cancel sprinting when on snow) bool false
 
+dg_sprint_hb.aux1            (Enable AUX1 sprinting)         bool true
+
+dg_sprint_hb.double_tap      (Enable double tap sprinting)   bool true
+
+dg_sprint_hb.tap_interval    (Tap interval)                  float 0.5 0.1 2.0
+
+dg_sprint_hb.particles       (Enable sprinting particles)    bool true
+
+
+dg_sprint_hb.starve_below (Starve when hunger is below this value) float 1.0 
+
+dg_sprint_hb.drain_rate (Hunger drain rate while sprinting) float 20.0 0.0 100.0
+
+dg_sprint_hb.liquid (Cancel sprinting when in liquid) bool false
+
+dg_sprint_hb.snow (Cancel sprinting when on snow) bool false
+
+dg_sprint_hb.starve (Cancel sprinting when starving) bool false
+
+[Advanced]
+
+dg_sprint_hb.detection_step (Detection step interval) float 0.1 0.1 1.0
+dg_sprint_hb.sprint_step (Sprint step interval) float 0.5 0.1 1.0
+dg_sprint_hb.drain_step (Drain step interval) float 0.5 0.1 1.0
+dg_sprint_hb.cancel_step (Sprint cancellation step interval) float 0.3 0.1 1.0
 
