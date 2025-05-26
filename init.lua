@@ -58,8 +58,7 @@ end)
 
 
 dg_sprint_core.RegisterStep(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
-        local is_sprinting = state.is_sprinting
-        if is_sprinting then
+        if state.is_sprinting then
 	        if dg_sprint_core.ExtraDrainCheck(player) then
 	                if not player or not player:is_player() or player.is_fake_player == true then
 	                        return
