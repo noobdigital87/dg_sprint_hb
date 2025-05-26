@@ -22,6 +22,8 @@ local settings = {
         sprint_step = get_settings_number(your_mod_name .. ".sprint_step", 0.5),
         drain_step = get_settings_number(your_mod_name .. ".drain_step", 0.5),
         cancel_step = get_settings_number(your_mod_name .. ".cancel_step", 0.3),
+	jump = get_settings_number(your_mod_name .. ".jump", 0.1),
+        speed = get_settings_number(your_mod_name .. ".speed", 0.8),
 }
 
 hbhunger.HUNGER_TICK = get_settings_number(your_mod_name .. ".HUNGER_TICK",800)
@@ -44,7 +46,7 @@ end)
 
 dg_sprint_core.RegisterStep(your_mod_name, "SPRINT", settings.sprint_step, function(player, state, dtime)
 	local detected = state.detected
-	dg_sprint_core.Sprint(your_mod_name, player, detected, {speed = 0.8, jump = 0.1})
+	dg_sprint_core.Sprint(your_mod_name, player, detected, {speed = settings.speed, jump = settings.jump})
 	if detected and settings.particles then
 		dg_sprint_core.ShowParticles(player:get_pos())
 	end
