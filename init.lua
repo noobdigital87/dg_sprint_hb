@@ -20,11 +20,11 @@ local settings = {
 	fov_value = get_settings_number(your_mod_name..".fov_value", 15),
 	fov_time_stop = get_settings_number(your_mod_name .. ".fov_time_stop", 0.4),
 	fov_time_start = get_settings_number(your_mod_name..".fov_time_start", 0.2),
-        drain_rate = get_settings_number(your_mod_name .. ".drain_rate", 20),
+        drain_rate = get_settings_number(your_mod_name .. ".drain_rate", 1),
         starve_below = get_settings_number(your_mod_name..".starve_below", 1),
         detection_step = get_settings_number(your_mod_name .. ".detection_step", 0.1),
         sprint_step = get_settings_number(your_mod_name .. ".sprint_step", 0.5),
-        drain_step = get_settings_number(your_mod_name .. ".drain_step", 0.5),
+        drain_step = get_settings_number(your_mod_name .. ".drain_step", 0.1),
         cancel_step = get_settings_number(your_mod_name .. ".cancel_step", 0.3),
 	jump = get_settings_number(your_mod_name .. ".jump", 0.1),
         speed = get_settings_number(your_mod_name .. ".speed", 0.8),
@@ -49,11 +49,8 @@ dg_sprint_core.RegisterStep(your_mod_name, "DETECT", settings.detection_step, fu
 end)
 
 dg_sprint_core.RegisterStep(your_mod_name, "SPRINT", settings.sprint_step, function(player, state, dtime)
-	local detected = state.detected
-	
-	
-	if detected ~= state.is_sprinting then
-		state.is_sprinting = detected
+	if state.detected ~= state.is_sprinting then
+		state.is_sprinting = state.detected
 		dg_sprint_core.Sprint(your_mod_name, player, state.is_sprinting, {speed = settings.speed, jump = settings.jump})
 	end
 	if state.is_sprinting then
@@ -61,25 +58,25 @@ dg_sprint_core.RegisterStep(your_mod_name, "SPRINT", settings.sprint_step, funct
 	end
 end)
 
-
 dg_sprint_core.RegisterStep(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
+	if not player or not player:is_player() or player.is_fake_player == true then return end
         if state.is_sprinting then
 	        if dg_sprint_core.ExtraDrainCheck(player) then
-	                if not player or not player:is_player() or player.is_fake_player == true then
-	                        return
-	                end
+				
 	                local name = player:get_player_name()
 	                local exhaus = hbhunger.exhaustion[name]
                         exhaus = exhaus + settings.drain_rate
+				
                         if exhaus > hbhunger.EXHAUST_LVL then
                                 exhaus = 0 
                                 local h = tonumber(hbhunger.hunger[name])
-	                        h = h - 1
+	                        h = h - settings.drain_rate * dtime
 	                        if h < 0 then h = 0 end
 	                        hbhunger.hunger[name] = h
 	                        hbhunger.set_hunger_raw(player)
                                 
                         end
+				
                         hbhunger.exhaustion[name] = exhaus
                 end
         end        
