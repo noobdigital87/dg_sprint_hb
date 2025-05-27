@@ -2,8 +2,8 @@ dg_sprint_hb.aux1            (Enable AUX1 sprinting)         bool true
 dg_sprint_hb.double_tap      (Enable double tap sprinting)   bool true
 dg_sprint_hb.tap_interval    (Tap interval)                  float 0.5 0.1 2.0
 dg_sprint_hb.particles       (Enable sprinting particles)    bool true
-dg_sprint_hb.speed           (Jump boost)                    float 0.8 
-dg_sprint_hb.jump            (Speed boost)                   float 0.1
+dg_sprint_hb.speed           (Speed boost)                    float 0.8 
+dg_sprint_hb.jump            (Jump boost)                   float 0.1
 dg_sprint_hb.fov            (Enable fov change while sprinting) bool true
 dg_sprint_hb.fov_value      (Fov change value) int 15
 dg_sprint_hb.fov_time_stop  (Fov transition time when stop sprinting) float 0.4
