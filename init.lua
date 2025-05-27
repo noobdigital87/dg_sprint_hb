@@ -51,17 +51,13 @@ end)
 dg_sprint_core.RegisterStep(your_mod_name, "SPRINT", settings.sprint_step, function(player, state, dtime)
 	local detected = state.detected
 	
-	dg_sprint_core.Sprint(your_mod_name, player, detected, {speed = settings.speed, jump = settings.jump})
-	if detected and settings.particles then
-		dg_sprint_core.ShowParticles(player:get_pos())
-	end
-	if settings.fov and detected then
-		dg_sprint_core.SetFov(player, settings.fov_value, true, 0.2)
-	elseif settings.fov and not detected then
-		dg_sprint_core.SetFov(player, settings.fov_value, false, 0.2)
-	end
+	
 	if detected ~= state.is_sprinting then
 		state.is_sprinting = detected
+		dg_sprint_core.Sprint(your_mod_name, player, state.is_sprinting, {speed = settings.speed, jump = settings.jump})
+	end
+	if state.is_sprinting then
+		dg_sprint_core.ShowParticles(player:get_pos())
 	end
 end)
 
