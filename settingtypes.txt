@@ -6,6 +6,8 @@ dg_sprint_hb.speed           (Jump boost)                    float 0.8
 dg_sprint_hb.jump            (Speed boost)                   float 0.1
 dg_sprint_hb.fov            (Enable fov change while sprinting) bool true
 dg_sprint_hb.fov_value      (Fov change value) int 15
+dg_sprint_hb.fov_time_stop  (Fov transition time when stop sprinting) float 0.4
+dg_sprint_hb.fov_time_start (Fov transition time when start sprinting) float 0.2
 dg_sprint_hb.starve_below   (Starve when hunger is below this value) float 1.0 
 
 [Sprint cancellations]
