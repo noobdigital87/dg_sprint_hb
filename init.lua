@@ -93,6 +93,6 @@ api.register_server_step(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel
     	elseif settings.snow and api.tools.node_is_snowy_group(player, node_pos) then
         	cancel = true
 	end
-    end
+    
      api.set_sprint_cancel(player, cancel, your_mod_name .. ":SPRINT_CANCELLATIONS")
 end)
