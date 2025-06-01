@@ -64,7 +64,7 @@ end)
 
 api.register_server_step(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
 	if not player or not player:is_player() or player.is_fake_player == true then return end
-        if state.detected and api.player_is_draining(player) then
+        if state.detected and api.is_player_draining(player) then
 			local name = player:get_player_name()
 			local exhaus = hbhunger.exhaustion[name]
 			exhaus = exhaus + settings.drain_rate
@@ -88,9 +88,9 @@ api.register_server_step(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel
 
     local cancel = false
 
-	if settings.liquid and dg_sprint_core.IsNodeLiquid(player, node_pos) then
+	if settings.liquid and api.tools.node_is_liquid(player, node_pos) then
         cancel = true
-    elseif settings.snow and dg_sprint_core.IsNodeSnow(player, node_pos) then
+    elseif settings.snow and api.tools.node_is_snowy_group(player, node_pos) then
         cancel = true
     elseif settings.starve then
         if settings.starve_below == -1 then return end
