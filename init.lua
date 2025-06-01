@@ -1,5 +1,5 @@
 local your_mod_name = core.get_current_modname()
-
+local api = dg_sprint_core.v2
 local function get_settings_boolean(setting_name, default)
     return core.settings:get_bool(setting_name, default)
 end
@@ -9,11 +9,11 @@ local function get_settings_number(setting_name, default)
 end
 
 local settings = {
-    	aux1 = get_settings_boolean(your_mod_name .. ".aux1", true),
-    	double_tap = get_settings_boolean(your_mod_name .. ".double_tap", true),
-    	particles = get_settings_boolean(your_mod_name .. ".particles", true),
-    	tap_interval = get_settings_number(your_mod_name .. ".tap_interval", 0.5),
-        liquid = get_settings_boolean(your_mod_name .. ".liquid", false),
+	aux1 = get_settings_boolean(your_mod_name .. ".aux1", true),
+	double_tap = get_settings_boolean(your_mod_name .. ".double_tap", true),
+	particles = get_settings_boolean(your_mod_name .. ".particles", true),
+	tap_interval = get_settings_number(your_mod_name .. ".tap_interval", 0.5),
+	liquid = get_settings_boolean(your_mod_name .. ".liquid", false),
         snow = get_settings_boolean(your_mod_name .. ".snow", false),
         starve = get_settings_boolean(your_mod_name .. ".starve", false),
 	fov = get_settings_boolean(your_mod_name .. ".fov", true),
@@ -40,58 +40,49 @@ hbhunger.SAT_INIT = get_settings_number(your_mod_name .. ".SAT_INIT",20)
 hbhunger.SAT_HEAL = get_settings_number(your_mod_name .. ".SAT_HEAL",15)
 
 
-dg_sprint_core.RegisterStep(your_mod_name, "DETECT", settings.detection_step, function(player, state, dtime)
-	local detected = dg_sprint_core.IsSprintKeyDetected(player, settings.aux1, settings.double_tap, settings.tap_interval) and dg_sprint_core.IsMoving(player) and not player:get_attach()
+api.register_server_step(your_mod_name, "DETECT", settings.detection_step, function(player, state, dtime)
+	local control = player:get_player_control()
+	local detected = api.sprint_key_detected(player, (settings.aux1 and control.aux1), (settings.double_tap and control.up), settings.tap_interval)
 	if detected ~= state.detected then
 		state.detected = detected
 	end
 
 end)
 
-dg_sprint_core.RegisterStep(your_mod_name, "SPRINT", settings.sprint_step, function(player, state, dtime)
-	if state.detected ~= state.is_sprinting then
-		state.is_sprinting = state.detected
-
-		if settings.fov and state.is_sprinting then
-			dg_sprint_core.SetFov(player, settings.fov_value, true, settings.fov_time_start)
-		elseif settings.fov and not state.is_sprinting then
-			dg_sprint_core.SetFov(player, settings.fov_value, false, settings.fov_time_stop)
-		end
-
-		dg_sprint_core.Sprint(your_mod_name, player, state.is_sprinting, {speed = settings.speed, jump = settings.jump})
-	end
-	if state.is_sprinting then
-		if settings.particles then
-			dg_sprint_core.ShowParticles(player:get_pos())
-		end
-	end
+api.register_server_step(your_mod_name, "SPRINT", settings.sprint_step, function(player, state, dtime)
+	if not settings.fov then
+        settings.fov_value = 0
+    end
+    if state.detected then
+        local sprint_settings = {speed = settings.speed, jump = settings.jump, particles = settings.particles, fov = settings.fov_value, transition = settings.fov_time_start}
+        api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
+    else
+        local sprint_settings = {speed = settings.speed, jump = settings.jump, particles = settings.particles, fov = settings.fov_value, transition = settings.fov_time_stop}
+        api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
+    end
 end)
 
-dg_sprint_core.RegisterStep(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
+api.register_server_step(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
 	if not player or not player:is_player() or player.is_fake_player == true then return end
-        if state.is_sprinting then
-	        if dg_sprint_core.ExtraDrainCheck(player) then
+        if state.detected then
+			local name = player:get_player_name()
+			local exhaus = hbhunger.exhaustion[name]
+			exhaus = exhaus + settings.drain_rate
 
-	                local name = player:get_player_name()
-	                local exhaus = hbhunger.exhaustion[name]
-                        exhaus = exhaus + settings.drain_rate
+			if exhaus > hbhunger.EXHAUST_LVL then
+				exhaus = 0
+				local h = tonumber(hbhunger.hunger[name])
+				h = h - 1
+				if h < 0 then h = 0 end
+				hbhunger.hunger[name] = h
+				hbhunger.set_hunger_raw(player)
+			end
+			hbhunger.exhaustion[name] = exhaus
+		end
 
-                        if exhaus > hbhunger.EXHAUST_LVL then
-                                exhaus = 0
-                                local h = tonumber(hbhunger.hunger[name])
-	                        h = h - 1
-	                        if h < 0 then h = 0 end
-	                        hbhunger.hunger[name] = h
-	                        hbhunger.set_hunger_raw(player)
-
-                        end
-
-                        hbhunger.exhaustion[name] = exhaus
-                end
-        end
 end)
 
-dg_sprint_core.RegisterStep(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel_step, function(player, state, dtime)
+api.register_server_step(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel_step, function(player, state, dtime)
     local pos = player:get_pos()
     local node_pos = { x = pos.x, y = pos.y + 0.5, z = pos.z }
 
@@ -109,5 +100,5 @@ dg_sprint_core.RegisterStep(your_mod_name , "SPRINT_CANCELLATIONS", settings.can
         end
     end
 
-    dg_sprint_core.prevent_detection(player, cancel, your_mod_name .. ":SPRINT_CANCELLATIONS")
+     api.set_sprint_cancel(player, cancel, your_mod_name .. ":SPRINT_CANCELLATIONS")
 end)
