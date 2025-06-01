@@ -64,7 +64,7 @@ end)
 
 api.register_server_step(your_mod_name, "DRAIN", settings.drain_step, function(player, state, dtime)
 	if not player or not player:is_player() or player.is_fake_player == true then return end
-        if state.detected then
+        if state.detected and api.player_is_draining(player) then
 			local name = player:get_player_name()
 			local exhaus = hbhunger.exhaustion[name]
 			exhaus = exhaus + settings.drain_rate
