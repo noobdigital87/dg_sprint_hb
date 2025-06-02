@@ -29,7 +29,7 @@ local settings = {
 	jump = get_settings_number(your_mod_name .. ".jump", 0.1),
         speed = get_settings_number(your_mod_name .. ".speed", 0.8),
 }
-
+dg_sprint_hb = {}
 dg_sprint_hb = settings
 
 hbhunger.HUNGER_TICK = get_settings_number(your_mod_name .. ".HUNGER_TICK",800)
