@@ -1,5 +1,5 @@
 local your_mod_name = core.get_current_modname()
-local api = dg_sprint_core.v2
+local api = dg_sprint_core
 local function get_settings_boolean(setting_name, default)
     return core.settings:get_bool(setting_name, default)
 end
@@ -12,7 +12,7 @@ local settings = {
 	aux1 = get_settings_boolean(your_mod_name .. ".aux1", true),
 	double_tap = get_settings_boolean(your_mod_name .. ".double_tap", true),
 	particles = get_settings_boolean(your_mod_name .. ".particles", true),
-	tap_interval = get_settings_number(your_mod_name .. ".tap_interval", 0.5),
+	tap_interval = get_settings_number(your_mod_name .. ".tap_interval", 1),
 	liquid = get_settings_boolean(your_mod_name .. ".liquid", false),
         snow = get_settings_boolean(your_mod_name .. ".snow", false),
         starve = get_settings_boolean(your_mod_name .. ".starve", false),
@@ -88,11 +88,13 @@ api.register_server_step(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel
 
     	local cancel = false
 
-	if settings.liquid and api.tools.node_is_liquid(player, node_pos) then
+        if settings.liquid and api.tools.node_is_liquid(player, node_pos) then
+                cancel = true
+        elseif settings.snow and api.tools.node_is_snowy_group(player, node_pos) then
         	cancel = true
-    elseif settings.snow and api.tools.node_is_snowy_group(player, node_pos) then
-        	cancel = true
-	end
+		elseif hbhunger.get_hunger_raw(player) < settings.starve_below then
+			cancel = true
+        end
 
      api.set_sprint_cancel(player, cancel, your_mod_name .. ":SPRINT_CANCELLATIONS")
 end)
