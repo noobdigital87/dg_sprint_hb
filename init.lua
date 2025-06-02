@@ -8,7 +8,7 @@ local function get_settings_number(setting_name, default)
     return tonumber(core.settings:get(setting_name)) or default
 end
 
-local dg_sprint_hb = {
+local settings = {
 	aux1 = get_settings_boolean(your_mod_name .. ".aux1", true),
 	double_tap = get_settings_boolean(your_mod_name .. ".double_tap", true),
 	particles = get_settings_boolean(your_mod_name .. ".particles", true),
@@ -29,6 +29,8 @@ local dg_sprint_hb = {
 	jump = get_settings_number(your_mod_name .. ".jump", 0.1),
         speed = get_settings_number(your_mod_name .. ".speed", 0.8),
 }
+
+dg_sprint_hb = settings
 
 hbhunger.HUNGER_TICK = get_settings_number(your_mod_name .. ".HUNGER_TICK",800)
 hbhunger.EXHAUST_DIG = get_settings_number(your_mod_name .. ".EXHAUST_DIG",3.0)
