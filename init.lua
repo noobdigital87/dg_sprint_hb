@@ -112,14 +112,21 @@ api.register_server_step(your_mod_name , "SPRINT_CANCELLATIONS", settings.cancel
 	local node_pos = { x = pos.x, y = pos.y + 0.5, z = pos.z }
 
 	local cancel = false
-
-	if settings.liquid and api.tools.node_is_liquid(player, node_pos) then
+	
+	local control = player:get_player_control()
+	if control.down then
+		cancel = true	
+	elseif settings.liquid and api.tools.node_is_liquid(player, node_pos) then
 		cancel = true
 	elseif settings.snow and api.tools.node_is_snowy_group(player, node_pos) then
 		cancel = true
 	elseif settings.starve and hbhunger.get_hunger_raw(player) < settings.starve_below then
 		cancel = true
+	
 	end
+
+	
+	
 
 	api.set_sprint_cancel(player, cancel, your_mod_name .. ":SPRINT_CANCELLATIONS")
 		
