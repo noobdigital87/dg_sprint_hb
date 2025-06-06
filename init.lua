@@ -76,7 +76,7 @@ api.register_server_step(your_mod_name, "SPRINT", settings.sprint_step, function
 			fov = settings.fov_value,
 			transition = settings.fov_time_stop
 		}
-		
+
 		api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
 	end
 end)
